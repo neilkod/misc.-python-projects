@@ -28,6 +28,27 @@ def buildWordlist(articles):
 	return wordlist
 
 
+def writeMatrix(outputFilename,articles,wordlist):
+	out=codecs.open(outputFilename,'wb','utf-8')
+	# print the header text
+	out.write('docid')
+	for word in wordlist: out.write('\t%s' % word)
+	out.write('\n')
+
+	# now for each article, print the article id followed
+	# by a tab, followed by the word frequencies
+	for k,v in articles.iteritems():
+		out.write('%s' % k)
+		for word in wordlist:
+			if word in articles[k]:
+				out.write('\t%d' % articles[k][word])
+
+			else:
+				out.write('\t0')
+			
+		out.write('\n')
+
+
 articleText = 'sample_jo.txt'	
 #articleText = 'articles.txt'	
 
@@ -42,22 +63,6 @@ print "%s words in wordlist" % len(wordlist)
 
 # so now, we have all of the article ids and we have all of the words
 # lets build a matrix
-out=codecs.open('neilwords.txt','wb','utf-8')
-# print the header text
-out.write('docid')
-for word in wordlist: out.write('\t%s' % word)
-out.write('\n')
+writeMatrix('neilwords.txt',articles,wordlist)
 
-# now for each article, print the article id followed
-# by a tab, followed by the word frequencies
-for k,v in articles.iteritems():
-	out.write('%s' % k)
-	for word in wordlist:
-		if word in articles[k]:
-			out.write('\t%d' % articles[k][word])
-
-		else:
-			out.write('\t0')
-			
-	out.write('\n')
 	
