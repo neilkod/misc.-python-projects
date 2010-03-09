@@ -2,12 +2,23 @@
 import re
 import codecs
 
+
 def countwords(txt):
 	""" return a dictionary containing the word-frequencies in txt"""
 	words = {}
+
 	pattern = re.compile("[a-zA-Z][a-zA-Z0-9]*")	
 	for word in pattern.findall(txt):
-		words[word.lower()] = words.get(word,0)+1
+		words[word.lower()] = words.get(word,0)+1	  
+	
+	# i'd rather do this in the prior step
+	# but i need to be able to eliminate dupes
+	# which may or may not be more expensive than
+	# going this route.  need to benchmark it.
+	for key,word in words.items():
+		apcount.setdefault(key,0)
+		apcount[key]+=1
+	
 	return words
 		
 def readArticles(filename):
@@ -18,9 +29,12 @@ def readArticles(filename):
 		countedwords=countwords(txt)
 		articles[id]=countedwords
 	return articles
+	
+	
 
 def buildWordlist(articles):
 	wordlist = []
+	stopwords=['a','the','but','of','to','for','who']
 	print 'article length is %s' %len(articles)
 	for val in articles.values():
 		[wordlist.append(wd) for wd in val.keys() if wd not in wordlist and wd not in stopwords]
@@ -48,18 +62,23 @@ def writeMatrix(outputFilename,articles,wordlist):
 			
 		out.write('\n')
 
-
 articleText = 'sample_jo.txt'	
+#articleText = 'small_jo.txt'
 #articleText = 'articles.txt'	
+apcount={}
 
-stopwords=['a','the','but','of','to']
 
 articles = readArticles(articleText)
 
 wordlist = buildWordlist(articles)
 print "%s words in wordlist" % len(wordlist)
+if len(wordlist) <200:
+	None
+	#print wordlist
+	#print apcount
 
-#print wordlist
+
+
 
 # so now, we have all of the article ids and we have all of the words
 # lets build a matrix
