@@ -34,12 +34,21 @@ def readArticles(filename):
 
 def buildWordlist(articles):
 	wordlist = []
-	stopwords=['a','the','but','of','to','for','who']
+	stopwords=['a','the','but','of','to','for','who','to','and']
 	print 'article length is %s' %len(articles)
 	for val in articles.values():
 		[wordlist.append(wd) for wd in val.keys() if wd not in wordlist and wd not in stopwords]
 	wordlist.sort()
 	return wordlist
+	
+def buildWordlist2(articles):
+	wordlist = []
+	stopwords=['a','the','but','of','to','for','who','and','by','our','as','be','in','is','must','are','this','hr','if','i']
+	print 'article length is %s' %len(articles)
+	for val in articles.values():
+		[wordlist.append(wd) for wd in val.keys() if wd not in wordlist and wd not in stopwords and float(apcount[wd])/len(articles)>.04]
+	wordlist.sort()
+	return wordlist	
 
 
 def writeMatrix(outputFilename,articles,wordlist):
@@ -70,18 +79,23 @@ apcount={}
 
 articles = readArticles(articleText)
 
-wordlist = buildWordlist(articles)
+wordlist = buildWordlist2(articles)
 print "%s words in wordlist" % len(wordlist)
-if len(wordlist) <200:
+if len(wordlist) <50:
 	None
-	#print wordlist
+	print wordlist
 	#print apcount
+	#print articles
 
 
+#take a random word and test the frequency
 
+
+print len(wordlist)
 
 # so now, we have all of the article ids and we have all of the words
 # lets build a matrix
 writeMatrix('neilwords.txt',articles,wordlist)
 
+print wordlist
 	
