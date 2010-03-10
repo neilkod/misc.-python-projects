@@ -24,7 +24,6 @@ def pearson(v1,v2):
 	
 	
 def kcluster(rows,distance=pearson,k=4):
-""" taken directly from the programming collective intelligence book"""
   # Determine the minimum and maximum values for each point
   ranges=[(min([row[i] for row in rows]),max([row[i] for row in rows])) 
   for i in range(len(rows[0]))]
