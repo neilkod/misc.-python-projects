@@ -109,7 +109,6 @@ def readArticles(filename):
 def buildWordlist(articles):
 	wordlist = []
 	stopwords=['a','the','but','of','to','for','who','to','and']
-	print 'article length is %s' %len(articles)
 	for val in articles.values():
 		[wordlist.append(wd) for wd in val.keys() if wd not in wordlist and wd not in stopwords]
 	wordlist.sort()
@@ -118,7 +117,6 @@ def buildWordlist(articles):
 def buildWordlist2(articles):
 	wordlist = []
 	stopwords = ['a', 'am', 'and', 'are', 'as', 'be', 'but', 'by', 'for', 'hr', 'i', 'if', 'in', 'is', 'must', 'of', 'our', 'the', 'this', 'to', 'who']
-	print 'article length is %s' %len(articles)
 	
 	# I had trouble splitting out the following comprehension so its ugly.  big to-do is to clean
 	# this up using comprehensions and not for loops
@@ -155,7 +153,7 @@ apcount={}
 
 
 articles = readArticles(articleText)
-
+print 'articles length is %s' % len(articles)
 wordlist = buildWordlist2(articles)
 print "%s words in wordlist" % len(wordlist)
 if len(wordlist) <50:
